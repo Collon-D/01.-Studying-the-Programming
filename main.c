@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <Windows.h>
 #include <conio.h>
+#include <stdlib.h>
 
 /* Declare the const variable */
 #define UP    72
@@ -15,19 +16,68 @@ enum CURSORTYPE { NOCURSOR, NORMALCURSOR, SOLIDCURSOR };
 
 /* -------------------------- */
 
-
-
 /* Declare the function */
 
 void gotoxy(int x, int y);                              // Set console cursor position.
 void SetConsoleCursorType(enum CURSORTYPE c);           // Set console cursor type.
-void Movement(int _nkey);                                        // if you press Arrow keys, then Player move.
-
+void Init();                                            // Initialize the program.
 /* -------------------- */
 
 int main(void)
 {
+    Init();
+    int nkey;
+    x = 50, y = 10;
+    gotoxy(x, y);
+    printf("бс");
+
+    while(TRUE)
+    {
+        nkey = _getch();
+
+        gotoxy(x , y);
+        printf(" ");
+
+        if (kbhit)
+        {
+            if (ESC == nkey) break;
+            switch(nkey)
+            {
+            case(UP):
+                if (y > 0) {
+                    y--;
+                    break;
+                }
+            case(DOWN):
+                if (y < 24) {
+                    y++;
+                    break;
+                }
+            case(LEFT):
+                if (x > 0) {
+                    x--;
+                    break;
+                }
+            case(RIGHT):
+                if (x < 80) {
+                    x++;
+                    break;
+                }
+            }
+        }
+        gotoxy(x, y);
+        printf("бс");
+        Sleep(100);
+    }
+
+
     return 0;
+}
+
+void Init()
+{
+    SetConsoleTitle(TEXT("Snake"));
+    SetConsoleCursorType(NOCURSOR);
 }
 
 void gotoxy(int x, int y)
@@ -57,37 +107,3 @@ void SetConsoleCursorType(enum CURSORTYPE c)
 
     SetConsoleCursorInfo(GetStdHandle(STD_OUTPUT_HANDLE), &cursorInfo);
 }
-
-void Movement(int _nkey)
-{
-    if (_kbhit()) {
-        gotoxy(x, y);
-        printf(" ");
-
-        switch(_nkey) {
-        case(UP):
-            if (y > 0) {
-                y--;
-                break;
-            }
-        case(DOWN):
-            if (y < 24) {
-                y++;
-                break;
-            }
-        case(LEFT):
-            if (x > 0) {
-                x--;
-                break;
-            }
-        case(RIGHT):
-            if (x < 80) {
-                x++;
-                break;
-            }
-        }
-        gotoxy(x, y);
-        printf("@");
-    }
-}
-
