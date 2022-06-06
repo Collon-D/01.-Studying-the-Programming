@@ -1,0 +1,96 @@
+#include <iostream>
+#include <random>
+
+typedef struct _Arr {
+    int* ptr;
+    int iCount;
+    int iMax;
+}Arr;
+
+// 배열 초기화 함수
+void InitArr(Arr* _arr) 
+{
+    _arr->ptr = (int*)malloc(sizeof(int) * 2);
+    _arr->iCount = 0;
+    _arr->iMax = 2;
+}
+
+// 배열 크기 재정의 함수
+void ResizeArr(Arr* _arr)
+{
+    int newMax = (_arr->iMax) * 2;
+    int* newPtr = (int*)malloc(sizeof(int) * newMax);
+    
+    for (int i = 0; i < _arr->iMax; ++i)
+    {
+        newPtr[i] = _arr->ptr[i]; 
+    }
+    
+    _arr->ptr = newPtr;
+    _arr->iMax *= 2;
+}
+
+// 배열에 데이터 추가 함수
+void PushData(Arr* _arr, int data)
+{
+    if (_arr->iCount == _arr->iMax) {
+        ResizeArr(_arr);
+    }
+    
+    _arr->ptr[_arr->iCount++] = data;
+}
+
+// 배열에 들어있는 데이터 출력 함수
+void PrintArrData(Arr* _arr) 
+{
+    for (int i = 0; i < _arr->iMax; ++i)
+    {
+        std::cout << _arr->ptr[i] << ' ';
+    }
+    std::cout << std::endl;
+}
+
+void Swap(int* a, int* b)
+{
+    int temp = 0;
+    temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+
+// Bubble Sort 구현
+void BubbleSort(Arr* _arr)
+{
+    for (int iLoop = 0; iLoop < _arr->iMax; ++iLoop)
+    {
+        for (int jLoop = 0; jLoop < _arr->iMax-1 ; ++jLoop)
+        {
+            if (_arr->ptr[jLoop] > _arr->ptr[jLoop + 1]) {
+                Swap(&_arr->ptr[jLoop], &_arr->ptr[jLoop + 1]);
+            }
+        }
+        
+    }
+    
+}
+
+int main(void)
+{
+    std::random_device rd;
+    std::mt19937 gen(rd());
+    std::uniform_int_distribution<int> dis(0, 99);
+    
+    Arr a;
+    InitArr(&a);
+    
+    for (int i = 0; i < 15; i++)
+    {
+        PushData(&a, dis(gen));
+    }
+    PrintArrData(&a);
+    BubbleSort(&a);
+    PrintArrData(&a);
+    
+    return 0;
+}
