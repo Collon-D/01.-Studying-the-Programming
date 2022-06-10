@@ -1,0 +1,65 @@
+#include <iostream>
+
+typedef struct tNode {
+    int data;
+    struct tNode* next;
+}tNode;
+
+typedef struct tList {
+    int iCount;
+    struct tNode* head;
+}tList;
+
+void InitList(tList* pList)
+{
+    pList->iCount = 0;
+    pList->head = nullptr;
+}
+
+void Pushback(tList* pList, int iData)
+{
+    tNode* save = (tNode*)malloc(sizeof(tNode));
+    save->data = iData;
+    save->next = nullptr;
+    
+    // 1. First list
+    if (pList->head == nullptr) {
+        pList->head = save;
+    }
+    // 2. One above list
+    else {
+        tNode* _prev = pList->head;
+        while (_prev->next)
+        {
+           _prev = _prev->next;
+        }
+        _prev->next = save;
+    }
+    ++pList->iCount;
+}
+
+void PrintListData(tList* pList)
+{
+    tNode* a = pList->head;
+    while(a)
+    {
+        printf("%d ", a->data);
+        a = a->next;
+    }
+}
+
+int main(void)
+{
+    tList tHead;
+    InitList(&tHead);
+    
+    Pushback(&tHead, 10);
+    Pushback(&tHead, 20);
+    Pushback(&tHead, 30);
+    Pushback(&tHead, 40);
+    Pushback(&tHead, 50);
+    
+    PrintListData(&tHead);
+    
+    return 0;
+}
