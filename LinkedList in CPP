@@ -38,6 +38,15 @@ void Pushback(tList* pList, int iData)
     ++pList->iCount;
 }
 
+void PushFront(tList* pList, int iData)
+{
+    tNode* save = (tNode*)malloc(sizeof(tNode));
+    save->data = iData;
+    save->next = pList->head;
+    pList->head = save;
+    ++pList->iCount;
+}
+
 void PrintListData(tList* pList)
 {
     tNode* a = pList->head;
@@ -53,12 +62,10 @@ int main(void)
     tList tHead;
     InitList(&tHead);
     
-    Pushback(&tHead, 10);
-    Pushback(&tHead, 20);
-    Pushback(&tHead, 30);
-    Pushback(&tHead, 40);
-    Pushback(&tHead, 50);
-    
+    PushFront(&tHead, 10);
+    PushFront(&tHead, 20);
+    PushFront(&tHead, 30);
+    PushFront(&tHead, 40);
     PrintListData(&tHead);
     
     return 0;
